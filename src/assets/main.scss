@@ -1,0 +1,23 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+:root {
+  --leap-primary-color: #8a1207;
+  --leap-secondary-color: #e9540d;
+  --leap-error-color: #c00d0d;
+  --leap-info-color: #2c73ab;
+  --leap-continue-color: #009c8c;
+  --leap-black-color: #282828;
+
+  --va-input-font-size: 20px;
+  --va-input-line-height: 35px;
+  --va-input-container-label-font-size: 13px;
+  --va-input-container-label-line-height: 13px;
+  --va-input-container-label-text-transform: none; 
+
+  --va-dropdown-content-padding: 0px;
+  --va-dropdown-content-wrapper-z-index: 100000;
+}
