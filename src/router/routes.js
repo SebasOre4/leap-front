@@ -1,20 +1,23 @@
-// Routes
-import authRoutes from "./auth";
-import dashRoutes from "./dash";
 import NotFoundTemplate from "@/views/templates/NotFoundTemplate.vue";
+import DashboardTemplate from "@/views/templates/DashboardTemplate.vue";
+import HomeView from "@/views/dash/HomeView.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: { name: "home" },
+    name: "dashtemplate",
+    redirect: { name: 'home' },
+    component: DashboardTemplate,
+    children: [
+      {
+        path: '',
+        name: "home",
+        component: HomeView
+      }
+    ]
   },
-  authRoutes,
-  dashRoutes,
   {
     path: "/:pathMatch(.*)*",
-    meta: {
-      requiresAuth: true,
-    },
     component: NotFoundTemplate,
   },
 ];
