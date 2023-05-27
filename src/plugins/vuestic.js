@@ -5,11 +5,12 @@ export const vuestic = createVuestic({
     colors: {
       variables: {
         // Default colors
-        primary: '#8A1207',
-        secondary: '#E9540D',
-        error: '#C00D0D',
-        info: '#2c73ab',
-        continue: '#009c8c',
+        primary: '#6022C6',
+        secondary: '#8960FC',
+        error: '#b3302d',
+        info: '#4480ae',
+        warning: '#ffc823',
+        success: '#5a7152',
         black: '#282828'
       }
     },

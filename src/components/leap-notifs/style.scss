@@ -56,27 +56,27 @@
   // TYPE
 
   &.info {
-    color: #4480ae;
-    border-top: 3px solid #4480ae;
-    background: #cde8f6;
+    color: var(--leap-info-color);
+    border-top: 3px solid var(--leap-info-color);
+    background: white;
   }
 
   &.warning {
-    color: #ffc823;
-    border-top: 3px solid #ffc823;
-    background: #f8f3d7;
+    color: var(--leap-warning-color);
+    border-top: 3px solid var(--leap-warning-color);
+    background: white;
   }
 
   &.error {
-    color: #b3302d;
-    border-top: 3px solid #b3302d;
-    background: #ecc8c5;
+    color: var(--leap-error-color);
+    border-top: 3px solid var(--leap-error-color);
+    background: white;
   }
 
   &.success {
-    color: #5a7152;
-    border-top: 3px solid #5a7152;
-    background: #dff3d6;
+    color: var(--leap-success-color);
+    border-top: 3px solid var(--leap-success-color);
+    background: white;
   }
 
   // POSITION

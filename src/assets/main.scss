@@ -1,23 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+* {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 body {
   margin: 0px;
   padding: 0px;
   overflow: hidden;
+  background-color: var(--leap-secondary-color);
 }
 
 :root {
-  --leap-primary-color: #8a1207;
-  --leap-secondary-color: #e9540d;
-  --leap-error-color: #c00d0d;
-  --leap-info-color: #2c73ab;
-  --leap-continue-color: #009c8c;
+  --leap-primary-color: #6022c6;
+  --leap-secondary-color: #8960fc;
+  --leap-error-color: #b3302d;
+  --leap-info-color: #4480ae;
+  --leap-warning-color: #ffc823;
+  --leap-success-color: #5a7152;
   --leap-black-color: #282828;
 
   --va-input-font-size: 20px;
   --va-input-line-height: 35px;
   --va-input-container-label-font-size: 13px;
   --va-input-container-label-line-height: 13px;
-  --va-input-container-label-text-transform: none; 
+  --va-input-container-label-text-transform: none;
 
   --va-dropdown-content-padding: 0px;
   --va-dropdown-content-wrapper-z-index: 100000;
+}
+
+.form-label {
+  font-size: 13px;
+  color: var(--leap-primary-color);
+  line-height: 13px;
+  font-weight: 600;
+  padding-bottom: 7px;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 15px;
+
+  &.in-2 {
+    width: 49%;
+  }
+
+  &.in-3 {
+    width: 32%;
+  }
+}
+
+.leap-body-dash {
+  background: #f2f2f2f2;
+  width: 100%;
+  height: 100vh;
+
+  .sidebar-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+  }
+
+  .page-content {
+    width: 100%;
+    padding: 10px 10px 10px 75px;
+    min-height: 100vh;
+
+    .leap-main-panel-container {
+      padding: 20px 0px;
+      margin-bottom: 10px;
+
+      .leap-main-panel {
+        min-width: 100%;
+      }
+    }
+  }
+
+  .notfound-content {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .num-error {
+      color: var(--trb-secondary-color);
+      font-weight: 800;
+      font-size: 20vh;
+    }
+
+    .error-title {
+      color: var(--trb-secondary-color);
+      font-weight: 600;
+      font-size: 5vh;
+      margin-bottom: 15px;
+    }
+
+    .error-description {
+      color: var(--trb-primary-color);
+      font-size: 3vh;
+      margin-bottom: 35px;
+    }
+  }
 }
