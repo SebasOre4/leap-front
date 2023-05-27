@@ -1,5 +1,5 @@
 {
-  "name": "asov",
+  "name": "leapapp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -15,9 +15,9 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
-    "@intlify/unplugin-vue-i18n": "^0.10.0",
+    "axios": "^1.4.0",
+    "pinia": "^2.0.36",
     "vue": "^3.3.2",
-    "vue-i18n": "^9.2.2",
     "vue-router": "^4.2.0",
     "vuestic-ui": "^1.6.4"
   },

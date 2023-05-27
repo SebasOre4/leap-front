@@ -1,0 +1,19 @@
+.leap-crumbs-container {
+  padding: 20px 0px;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+
+  .leap-crumbs {
+    width: max-content;
+    padding: 0px 15px;
+
+    .va-breadcrumb-item--link:hover {
+      opacity: 0.9;
+    }
+
+    .va-breadcrumbs__separator {
+      padding: 0px 10px;
+    }
+  }
+}
