@@ -1,6 +1,7 @@
 // Routes
 import authRoutes from "./auth";
 import dashRoutes from "./dash";
+import superadminRoutes from "./superadmin";
 import NotFoundTemplate from "@/views/templates/NotFoundTemplate.vue";
 
 const routes = [
@@ -10,6 +11,7 @@ const routes = [
   },
   authRoutes,
   dashRoutes,
+  superadminRoutes,
   {
     path: "/:pathMatch(.*)*",
     meta: {

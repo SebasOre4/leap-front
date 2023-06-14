@@ -7,10 +7,13 @@ export const vuestic = createVuestic({
         // Default colors
         primary: '#6022C6',
         secondary: '#8960FC',
-        error: '#b3302d',
-        info: '#4480ae',
-        warning: '#ffc823',
-        success: '#5a7152',
+        male: '#00a2ff',
+        female: '#ec49a5',
+        error: '#dc3545',
+        blue: '#007bff',
+        info: '#17a2b8',
+        warning: '#ffc107',
+        success: '#28a745',
         black: '#282828'
       }
     },

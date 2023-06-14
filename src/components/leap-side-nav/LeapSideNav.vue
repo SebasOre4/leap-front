@@ -9,50 +9,20 @@
         </div>
         <div class="nav-icons">
             <div class="logo">Leap.</div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-icon-link">
-                    <fa-icon icon="fa-solid fa-user" class="nav-icon"></fa-icon>
-                </router-link>
-            </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-icon-link">
-                    <fa-icon icon="fa-solid fa-user" class="nav-icon"></fa-icon>
-                </router-link>
-            </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-icon-link">
-                    <fa-icon icon="fa-solid fa-user" class="nav-icon"></fa-icon>
-                </router-link>
-            </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-icon-link">
-                    <fa-icon icon="fa-solid fa-user" class="nav-icon"></fa-icon>
+            <div class="nav-item" v-for="r in routes[userX.apiUser.superadmin]">
+                <router-link :to="{ name: r.name }" class="nav-icon-link">
+                    <fa-icon :icon="`fa-solid fa-${r.icon}`" class="nav-icon"></fa-icon>
                 </router-link>
             </div>
         </div>
         <nav class="nav-items">
             <div class="app-title">Leap App</div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link">
-                    Dashboad
+            <div class="nav-item" v-for="r in routes[userX.apiUser.superadmin]">
+                <router-link :to="{ name: r.name }" class="nav-link">
+                    {{ r.label }}
                 </router-link>
             </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link">
-                    Reportes
-                </router-link>
-            </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link">
-                    Pacientes
-                </router-link>
-            </div>
-            <div class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link">
-                    Tratamientos (Juegos)
-                </router-link>
-            </div>
-            <div class="logout" >
+            <div class="logout">
                 <va-button @click="logout()" size="large" preset="secondary" color="#ffffff">
                     <fa-icon icon="fa-solid fa-arrow-right-to-bracket" class="btn-icon" />
                     Cerrar Sesión
@@ -73,205 +43,70 @@ const requesterX = useRequesterStore();
 const utilsX = useUtilsStore();
 const userX = useUserStore();
 
+const routes = [
+    [
+        {
+            name: 'home',
+            label: 'Dashboard',
+            icon: 'home'
+        },
+        {
+            name: 'reports',
+            label: 'Reportes',
+            icon: 'chart-line'
+        },
+        {
+            name: 'patients',
+            label: 'Pacientes',
+            icon: 'children'
+        },
+        {
+            name: 'treatments',
+            label: 'Tratamientos',
+            icon: 'stethoscope'
+        }
+    ],
+    [
+        {
+            name: 'sa-home',
+            label: 'Dashboard',
+            icon: 'home'
+        },
+        {
+            name: 'sa-reports',
+            label: 'Reportes',
+            icon: 'chart-line'
+        },
+    ]
+]
+
 async function logout() {
-  try {
-    const { data } = await requesterX.Get({
-      route: "/logout",
-      withAuth: true
-    });
-    if (data.success) {
-      utilsX.setNotif({
-        title: "Cierre de Sesión",
-        message: "Cierre de Sesión Exitoso!",
-        type: "success",
-        timeVisible: 3,
-        position: "top-center",
-      });
-      userX.setApiUser(null);
-      router.push({ name: "login" });
+    try {
+        const { data } = await requesterX.Get({
+            route: "/logout",
+            withAuth: true
+        });
+        if (data.success) {
+            utilsX.setNotif({
+                title: "Cierre de Sesión",
+                message: "Cierre de Sesión Exitoso!",
+                type: "success",
+                timeVisible: 3,
+                position: "top-center",
+            });
+            userX.setApiUser(null);
+            router.push({ name: "login" });
+        }
+    } catch (error) {
+        utilsX.setNotif({
+            title: "Cierre sesión",
+            message: "Algo salio mal :/",
+            type: "error",
+            timeVisible: 3,
+            position: "top-center",
+        });
     }
-  } catch (error) {
-    utilsX.setNotif({
-      title: "Cierre sesión",
-      message: "Algo salio mal :/",
-      type: "error",
-      timeVisible: 3,
-      position: "top-center",
-    });
-  }
 }
 </script>
     
-<style lang="scss">
-.leap-sidebar {
-    background: var(--leap-secondary-color);
-    width: 70px;
-    max-width: 90%;
-    height: 100%;
-    border-radius: 0px 15px 15px 0px;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-
-    &:hover {
-        width: 350px;
-    }
-
-    .bg-shapes {
-        position: absolute;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-
-        .leap-circle {
-            position: absolute;
-            content: '';
-            background: white;
-            opacity: 10%;
-            border-radius: 50%;
-
-            &.wh1 {
-                width: 80vh;
-                height: 80vh;
-            }
-
-            &.wh2 {
-                width: 20vh;
-                height: 20vh;
-            }
-
-            &.wh3 {
-                width: 10vh;
-                height: 10vh;
-            }
-
-            &.wh4 {
-                width: 5vh;
-                height: 5vh;
-            }
-
-            &.wh5 {
-                width: 2vh;
-                height: 2vh;
-            }
-        }
-    }
-
-    .nav-icons {
-        background-color: var(--leap-primary-color);
-        width: 60px;
-        height: 100%;
-        border-radius: 0px 15px 15px 0px;
-        position: absolute;
-        z-index: 2;
-
-        .logo {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            font-size: 23px;
-            opacity: 0.6;
-            color: white;
-            height: 170px;
-        }
-
-        .nav-item {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            &:hover {
-                .nav-icon-link {
-                    background: white;
-                    color: var(--leap-primary-color);
-                }
-            }
-
-            .nav-icon-link {
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                transition: all 0.3s ease;
-
-
-                .nav-icon {
-                    width: 60%;
-                    height: 60%;
-                }
-            }
-        }
-    }
-
-    .nav-items {
-        top: 0px;
-        left: 60px;
-        width: calc(100% - 60px);
-        min-width: 200px;
-        height: 100%;
-        position: absolute;
-        z-index: 1;
-
-        .app-title {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: white;
-            height: 170px;
-            font-weight: 600;
-        }
-
-        .nav-item {
-            width: 100%;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-
-            &:hover {
-                .nav-link {
-                    background: #f2f2f2f2;
-                    color: var(--leap-primary-color);
-                }
-            }
-
-            .nav-link {
-                color: white;
-                border-radius: 30px 0px 0px 30px;
-                width: 95%;
-                padding-left: 20px;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                transition: all 0.3s ease;
-            }
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 15px;
-            left: 0px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .btn-icon{
-                margin-right: 10px;
-            }
-        }
-    }
-}
-</style>
+<style lang="scss" src="./style.scss"></style>

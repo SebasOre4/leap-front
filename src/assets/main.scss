@@ -13,11 +13,14 @@ body {
 
 :root {
   --leap-primary-color: #6022c6;
+  --leap-male-color: #00a2ff;
+  --leap-female-color: #ec49a5;
   --leap-secondary-color: #8960fc;
-  --leap-error-color: #b3302d;
-  --leap-info-color: #4480ae;
-  --leap-warning-color: #ffc823;
-  --leap-success-color: #5a7152;
+  --leap-error-color: #dc3545;
+  --leap-blue-color: #007bff;
+  --leap-info-color: #17a2b8;
+  --leap-warning-color: #ffc107;
+  --leap-success-color: #28a745;
   --leap-black-color: #282828;
 
   --va-input-font-size: 20px;
@@ -56,7 +59,7 @@ body {
 }
 
 .leap-body-dash {
-  background: #f2f2f2f2;
+  background: #f2f2f2;
   width: 100%;
   height: 100vh;
 
@@ -65,6 +68,7 @@ body {
     top: 0px;
     left: 0px;
     height: 100vh;
+    z-index: 99;
   }
 
   .page-content {
@@ -73,11 +77,27 @@ body {
     min-height: 100vh;
 
     .leap-main-panel-container {
+      box-sizing: border-box;
       padding: 20px 0px;
       margin-bottom: 10px;
+      height: calc(100vh - 86px);
 
       .leap-main-panel {
         min-width: 100%;
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          justify-content: start;
+
+          .label {
+            color: var(--leap-primary-color);
+            font-weight: 500;
+            font-size: 30px;
+            letter-spacing: 1px;
+            margin-right: 10px;
+          }
+        }
       }
     }
   }

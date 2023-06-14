@@ -1,6 +1,7 @@
 import DashboardTemplate from "@/views/templates/DashboardTemplate.vue";
 import HomeView from "@/views/dash/HomeView.vue"
 import ProfileView from "@/views/dash/ProfileView.vue"
+import PatientsListView from "@/views/dash/patients/PatientsList.vue"
 
 const dashRoutes = {
   path: "/dashboard",
@@ -8,6 +9,7 @@ const dashRoutes = {
   redirect: { name: "home" },
   meta: {
     requiresAuth: true,
+    userType: 0
   },
   component: DashboardTemplate,
   children: [
@@ -18,7 +20,55 @@ const dashRoutes = {
       meta: {
         breadCrumb: [
           {
-            label: "dashboard",
+            label: "Dashboard",
+          },
+        ],
+      },
+    },
+    {
+      path: "reports",
+      name: "reports",
+      component: ProfileView,
+      meta: {
+        breadCrumb: [
+          {
+            label: "Dashboard",
+            to: { name: "home" },
+          },
+          {
+            label: "Reportes",
+          },
+        ],
+      },
+    },
+    {
+      path: "patients",
+      name: "patients",
+      component: PatientsListView,
+      meta: {
+        breadCrumb: [
+          {
+            label: "Dashboard",
+            to: { name: "home" },
+          },
+          {
+            label: "Pacientes",
+          },
+        ],
+      },
+    },
+    {
+      path: "treatments",
+      name: "treatments",
+      component: ProfileView,
+      meta: {
+        breadCrumb: [
+          {
+            label: "Dashboard",
+            to: { name: "home" },
+          },
+          {
+            label: "Tratamientos",
           },
         ],
       },
@@ -30,7 +80,7 @@ const dashRoutes = {
       meta: {
         breadCrumb: [
           {
-            label: "dashboard",
+            label: "Dashboard",
             to: { name: "home" },
           },
           {

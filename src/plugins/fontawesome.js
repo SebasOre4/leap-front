@@ -5,12 +5,23 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import {
-    faArrowRightToBracket,
+  faArrowRightToBracket,
+  faChartLine,
+  faChevronLeft,
+  faChevronRight,
+  faChild,
+  faChildDress,
+  faChildren,
   faCircleCheck,
   faCircleInfo,
   faCircleXmark,
+  faEdit,
   faEye,
   faEyeSlash,
+  faFileWaveform,
+  faHeartPulse,
+  faHome,
+  faStethoscope,
   faTriangleExclamation,
   faUser
 } from '@fortawesome/free-solid-svg-icons'
@@ -30,7 +41,18 @@ library.add(
   faCircleCheck,
   faArrowRightToBracket,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faChevronLeft,
+  faChevronRight,
+  faChild,
+  faChildDress,
+  faChildren,
+  faStethoscope,
+  faChartLine,
+  faHome,
+  faEdit,
+  faHeartPulse,
+  faFileWaveform
 )
 
 export default FontAwesomeIcon

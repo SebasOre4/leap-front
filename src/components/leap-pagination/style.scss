@@ -1,0 +1,12 @@
+.pagination-btns{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 10px 0px;
+
+    .pag-btn{
+        margin-right: 7px;
+    }
+}

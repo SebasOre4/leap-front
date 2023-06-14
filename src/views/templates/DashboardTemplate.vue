@@ -6,7 +6,7 @@
 
         <div class="page-content">
             <LeapBreadcrumbs></LeapBreadcrumbs>
-            <va-scroll-container class="leap-main-panel-container" horizontal size="small" color="secondary">
+            <va-scroll-container class="leap-main-panel-container" vertical size="small" color="secondary">
                 <div class="leap-main-panel">
                     <RouterView></RouterView>
                 </div>

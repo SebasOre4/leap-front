@@ -33,9 +33,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
-import { useRequesterStore } from '../../stores/requester';
-import { useUserStore } from '../../stores/user';
-import { useUtilsStore } from '../../stores/utils';
+import { useRequesterStore } from '@/stores/requester';
+import { useUserStore } from '@/stores/user';
+import { useUtilsStore } from '@/stores/utils';
 
 const router = useRouter()
 const requesterX = useRequesterStore();
@@ -65,7 +65,8 @@ async function login() {
       userX.setApiUser({
         name: data.data.name,
         email: email.value,
-        token: data.data.token
+        token: data.data.token,
+        superadmin: data.data.superadmin
       });
       router.push({ name: "home" });
     }
