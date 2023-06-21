@@ -28,10 +28,10 @@
                 <va-button round color="info" class="action-btn">
                     <fa-icon class="btn-icon" icon="fa-solid fa-edit"></fa-icon> Editar
                 </va-button>
-                <va-button round color="primary" class="action-btn">
+                <va-button round color="primary" class="action-btn" v-if="patient.state === 'Internado'">
                     <fa-icon class="btn-icon" icon="fa-solid fa-file-waveform"></fa-icon> Diagnosticar
                 </va-button>
-                <va-button round color="blue" class="action-btn">
+                <va-button round color="blue" class="action-btn" v-if="patient.state === 'En tratamiento'">
                     <fa-icon class="btn-icon" icon="fa-solid fa-heart-pulse"></fa-icon> Dar de Alta
                 </va-button>
             </div>

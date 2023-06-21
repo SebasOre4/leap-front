@@ -1,0 +1,80 @@
+.doctors-list {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 40px 0px;
+  
+    .doc-card {
+      position: relative;
+      box-sizing: border-box;
+      background: white;
+      overflow: hidden;
+      width: 24%;
+      margin: 10px 0px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+  
+      .data {
+        width: 100%;
+        margin-bottom: 15px;
+  
+        .main{
+          font-size: 20px;
+          color: var(--leap-primary-color);
+          margin-bottom: 10px;
+        }
+  
+        .text{
+          font-size: 15px;
+          color: var(--leap-black-color);
+          opacity: 0.9;
+          margin-bottom: 2px;
+        }
+      }
+  
+      .actions{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+  
+        .action-btn{
+          margin: 5px;
+  
+          .btn-icon{
+            margin: 0px 5px;
+          }
+        }
+      }
+
+      &.admin {
+        border-top: 3px solid var(--leap-primary-color);
+      }
+  
+      &.doc {
+        border-top: 3px solid var(--leap-male-color);
+      }
+    }
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .doctors-list {
+      .doc-card {
+        width: 49%;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 550px) {
+    .doctors-list {
+      .doc-card {
+        width: 100%;
+      }
+    }
+  }
+  
+  

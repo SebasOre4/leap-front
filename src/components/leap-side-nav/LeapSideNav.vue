@@ -77,6 +77,11 @@ const routes = [
             label: 'Reportes',
             icon: 'chart-line'
         },
+        {
+            name: 'sa-doctors',
+            label: 'Doctores',
+            icon: 'users-line'
+        },
     ]
 ]
 

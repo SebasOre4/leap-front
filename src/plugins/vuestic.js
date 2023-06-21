@@ -18,13 +18,47 @@ export const vuestic = createVuestic({
       }
     },
     icons: createIconsConfig({
+      aliases: [
+        {
+          name: "unfold_more",
+          to: "fa-solid fa-sort",
+        },
+        {
+          name: "mi-expand_less",
+          to: "fa-solid fa-sort-up",
+        },
+        {
+          name: "mi-expand_more",
+          to: "fa-solid fa-sort-down",
+        },
+        {
+          name: "mi-check",
+          to: "fa-solid fa-check",
+        },
+        {
+          name: "mi-warning",
+          to: "fa-solid fa-triangle-exclamation",
+        },
+        {
+          name: "remove",
+          to: "fa-solid fa-minus",
+        },
+        {
+          name: "mi-highlight_off",
+          to: "fa-solid fa-circle-xmark",
+        },
+        {
+          name: "mi-calendar_today",
+          to: "fa-regular fa-calendar"
+        }
+      ],
       fonts: [
         {
           name: '{code}',
           resolve: ({ code }) => ({
             class: '',
             content: '',
-            attrs: { icon: code.includes('fa-') ? `${code}` : 'fa-solid fa-shapes' },
+            attrs: { icon: `${code}` },
             tag: 'fa-icon'
           })
         }

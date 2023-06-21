@@ -22,8 +22,10 @@ import {
   faHeartPulse,
   faHome,
   faStethoscope,
+  faTrash,
   faTriangleExclamation,
-  faUser
+  faUser,
+  faUsersLine
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
@@ -52,7 +54,9 @@ library.add(
   faHome,
   faEdit,
   faHeartPulse,
-  faFileWaveform
+  faFileWaveform,
+  faUsersLine,
+  faTrash
 )
 
 export default FontAwesomeIcon

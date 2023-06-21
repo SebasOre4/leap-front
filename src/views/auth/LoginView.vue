@@ -71,6 +71,7 @@ async function login() {
       router.push({ name: "home" });
     }
   } catch (error) {
+    console.log(error);
     utilsX.setNotif({
       title: "Ingreso",
       message: "Algo salio mal :/",
