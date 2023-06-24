@@ -51,6 +51,11 @@ const routes = [
             icon: 'home'
         },
         {
+            name: 'profile',
+            label: 'Mi perfil',
+            icon: 'user'
+        },
+        {
             name: 'reports',
             label: 'Reportes',
             icon: 'chart-line'
@@ -71,6 +76,11 @@ const routes = [
             name: 'sa-home',
             label: 'Dashboard',
             icon: 'home'
+        },
+        {
+            name: 'profile',
+            label: 'Mi perfil',
+            icon: 'user'
         },
         {
             name: 'sa-reports',

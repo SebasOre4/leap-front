@@ -1,5 +1,7 @@
 <template>
-    home view
+    <div class="section-title">
+        <div class="label">Mi dashboard</div>
+    </div>
 </template>
   
 <script setup>

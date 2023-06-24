@@ -8,7 +8,7 @@ const superadminRoutes = {
   redirect: { name: "sa-home" },
   meta: {
     requiresAuth: true,
-    userType: 1
+    userType: [1]
   },
   component: DashboardTemplate,
   children: [

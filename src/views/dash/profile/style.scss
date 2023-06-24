@@ -1,0 +1,13 @@
+.profile-forms{
+    margin: 25px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .profile-form{
+        width: 49%;
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+}

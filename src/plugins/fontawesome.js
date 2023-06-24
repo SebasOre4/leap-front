@@ -56,7 +56,8 @@ library.add(
   faHeartPulse,
   faFileWaveform,
   faUsersLine,
-  faTrash
+  faTrash,
+  faUser
 )
 
 export default FontAwesomeIcon

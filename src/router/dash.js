@@ -1,6 +1,6 @@
 import DashboardTemplate from "@/views/templates/DashboardTemplate.vue";
 import HomeView from "@/views/dash/HomeView.vue"
-import ProfileView from "@/views/dash/ProfileView.vue"
+import ProfileView from "@/views/dash/profile/ProfileView.vue"
 import PatientsListView from "@/views/dash/patients/PatientsList.vue"
 
 const dashRoutes = {
@@ -9,7 +9,7 @@ const dashRoutes = {
   redirect: { name: "home" },
   meta: {
     requiresAuth: true,
-    userType: 0
+    userType: [0]
   },
   component: DashboardTemplate,
   children: [
@@ -78,13 +78,14 @@ const dashRoutes = {
       name: "profile",
       component: ProfileView,
       meta: {
+        userType: [0, 1],
         breadCrumb: [
           {
             label: "Dashboard",
             to: { name: "home" },
           },
           {
-            label: "profile",
+            label: "Mi perfil",
           },
         ],
       },
