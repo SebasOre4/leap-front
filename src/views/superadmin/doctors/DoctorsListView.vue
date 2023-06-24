@@ -31,6 +31,19 @@
                 </va-input>
             </div>
             <div class="form-group">
+                <div class="form-label">Confirmar contraseña *</div>
+                <va-input v-model="newDoc.password_confirmation" class="w-100"
+                    :type="isConfirmPasswordVisible ? 'text' : 'password'" :rules="[
+                        (v) => required(v) || 'El campo es requerido',
+                        (v) => password(v) || 'La contraseña debe tener mayúsculas, minúsculas y números.'
+                    ]">
+                    <template #appendInner>
+                        <va-icon :name="isConfirmPasswordVisible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" size="small"
+                            color="--va-primary" @click="isConfirmPasswordVisible = !isConfirmPasswordVisible" />
+                    </template>
+                </va-input>
+            </div>
+            <div class="form-group">
                 <div class="form-label">Es Administrador? *</div>
                 <va-switch v-model="newDoc.superadmin" />
             </div>
@@ -61,10 +74,7 @@
                 </div>
             </div>
             <div class="actions">
-                <va-button round color="info" class="action-btn">
-                    <fa-icon class="btn-icon" icon="fa-solid fa-edit"></fa-icon> Editar
-                </va-button>
-                <va-button round color="error" class="action-btn">
+                <va-button round color="error" class="action-btn" @click="deleteDoctor(doc.id)">
                     <fa-icon class="btn-icon" icon="fa-solid fa-trash"></fa-icon> Eliminar
                 </va-button>
             </div>
@@ -80,7 +90,9 @@ import { useRequesterStore } from '@/stores/requester';
 import { useValidator } from '@/composables/useValidator.js';
 import LeapPagination from '@/components/leap-pagination/LeapPagination.vue';
 import { useUtilsStore } from '@/stores/utils';
+import { useModal } from 'vuestic-ui';
 
+const { confirm } = useModal()
 const utilsX = useUtilsStore();
 const requesterX = useRequesterStore();
 const doctors = ref([]);
@@ -88,6 +100,7 @@ const pagination = ref([]);
 const currentPage = ref(1);
 const isSaving = ref(false)
 const isPasswordVisible = ref(false);
+const isConfirmPasswordVisible = ref(false);
 const showModal = ref(false);
 const { isValid, validate } = useForm('doc-form')
 const { stringBetween, required, password, email } = useValidator();
@@ -96,7 +109,8 @@ const newDoc = ref({
     name: null,
     email: null,
     superadmin: false,
-    password: null
+    password: null,
+    password_confirmation: null
 })
 
 onBeforeMount(async () => {
@@ -130,17 +144,55 @@ async function submit() {
     });
 
     if (data.success) {
-      utilsX.setNotif({
-        title: "Creación de Usuario",
-        message: "usuario creado Exitosamente!",
-        type: "success",
-        timeVisible: 3,
-        position: "top-center",
-      });
+        utilsX.setNotif({
+            title: "Creación de Usuario",
+            message: "usuario creado Exitosamente!",
+            type: "success",
+            timeVisible: 3,
+            position: "top-center",
+        });
 
-      showModal.value = false;
+        showModal.value = false;
 
-      getDoctors();
+        getDoctors();
+    }
+}
+
+async function deleteDoctor(userId) {
+    try {
+        const result = await confirm({
+            message: '¿Seguro que deseas eliminar este usuario?',
+            title: '¿Estas seguro de esta acción?',
+            okText: "Borrar",
+            cancelText: "Cancelar",
+        })
+
+        if (result) {
+            const { data } = await requesterX.Delete({
+                route: `/user/${userId}`,
+                withAuth: true
+            });
+
+            if (data.success) {
+                utilsX.setNotif({
+                    title: "Borrar Usuario",
+                    message: "Usuario eliminado exitosamente!",
+                    type: "success",
+                    timeVisible: 3,
+                    position: "top-center",
+                });
+
+                await getDoctors();
+            }
+        }
+    } catch (error) {
+        utilsX.setNotif({
+            title: "Eliminando usuario",
+            message: "Algo salio mal :/",
+            type: "error",
+            timeVisible: 3,
+            position: "top-center",
+        });
     }
 }
 
