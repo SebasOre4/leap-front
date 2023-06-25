@@ -37,6 +37,17 @@ body {
   margin-bottom: 25px;
 }
 
+.leap-tabs{
+  margin: 25px 0px;
+  width: 100%;
+
+  .tab-icon{
+    margin-right: 7px;
+  }
+}
+
+
+
 .form-label {
   font-size: 13px;
   color: var(--leap-primary-color);

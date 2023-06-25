@@ -50,6 +50,14 @@ export const vuestic = createVuestic({
         {
           name: "mi-calendar_today",
           to: "fa-regular fa-calendar"
+        },
+        {
+          name: "mi-chevron_left",
+          to: "fa-solid fa-chevron-left"
+        },
+        {
+          name: "mi-chevron_right",
+          to: "fa-solid fa-chevron-right"
         }
       ],
       fonts: [

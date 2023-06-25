@@ -61,10 +61,36 @@
   }
 }
 
+.form-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+
+  .create-form{
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 15px;
+    width: 50%;
+    max-width: 100%;
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .patients-list {
     .patient-card {
       width: 49%;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .form-container{
+  
+    .create-form{
+      width: 100%;
     }
   }
 }

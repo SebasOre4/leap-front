@@ -4,6 +4,8 @@ import ProfileView from "@/views/dash/profile/ProfileView.vue"
 import ReportsView from "@/views/dash/reports/ReportsView.vue"
 import TreatmentsView from "@/views/dash/treatments/TreatmentsView.vue"
 import PatientsListView from "@/views/dash/patients/PatientsList.vue"
+import NewPatientView from "@/views/dash/patients/NewPatient.vue"
+import PatientDetailView from "@/views/dash/patients/PatientDetail.vue"
 
 const dashRoutes = {
   path: "/dashboard",
@@ -55,6 +57,46 @@ const dashRoutes = {
           },
           {
             label: "Pacientes",
+          },
+        ],
+      },
+    },
+    {
+      path: "new-patient",
+      name: "new-patient",
+      component: NewPatientView,
+      meta: {
+        breadCrumb: [
+          {
+            label: "Dashboard",
+            to: { name: "home" },
+          },
+          {
+            label: "Pacientes",
+            to: { name: "patients" },
+          },
+          {
+            label: "Internar Paciente",
+          },
+        ],
+      },
+    },
+    {
+      path: "patient/:id",
+      name: "patient-detail",
+      component: PatientDetailView,
+      meta: {
+        breadCrumb: [
+          {
+            label: "Dashboard",
+            to: { name: "home" },
+          },
+          {
+            label: "Pacientes",
+            to: { name: "patients" },
+          },
+          {
+            label: "Detalle de Paciente",
           },
         ],
       },

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faArrowRightToBracket,
   faChartLine,
+  faCheck,
   faChevronDown,
   faChevronLeft,
   faChevronRight,
@@ -17,15 +18,15 @@ import {
   faCircleCheck,
   faCircleInfo,
   faCircleXmark,
+  faCommentMedical,
   faEdit,
   faEye,
   faEyeSlash,
+  faFileCircleCheck,
   faFileWaveform,
   faHeartPulse,
   faHome,
-  faSort,
-  faSortDown,
-  faSortUp,
+  faPen,
   faStethoscope,
   faTrash,
   faTriangleExclamation,
@@ -64,7 +65,14 @@ library.add(
   faTrash,
   faUser,
   faChevronDown,
-  faChevronUp
+  faChevronUp,
+  faChevronLeft,
+  faChevronRight,
+  faCheck,
+  faPen,
+  faCommentMedical,
+  faCircleCheck,
+  faFileCircleCheck
 )
 
 export default FontAwesomeIcon
