@@ -1,6 +1,8 @@
 import DashboardTemplate from "@/views/templates/DashboardTemplate.vue";
-import HomeView from "@/views/dash/HomeView.vue"
+import HomeView from "@/views/dash/dashboard/HomeView.vue"
 import ProfileView from "@/views/dash/profile/ProfileView.vue"
+import ReportsView from "@/views/dash/reports/ReportsView.vue"
+import TreatmentsView from "@/views/dash/treatments/TreatmentsView.vue"
 import PatientsListView from "@/views/dash/patients/PatientsList.vue"
 
 const dashRoutes = {
@@ -28,7 +30,7 @@ const dashRoutes = {
     {
       path: "reports",
       name: "reports",
-      component: ProfileView,
+      component: ReportsView,
       meta: {
         breadCrumb: [
           {
@@ -60,7 +62,7 @@ const dashRoutes = {
     {
       path: "treatments",
       name: "treatments",
-      component: ProfileView,
+      component: TreatmentsView,
       meta: {
         breadCrumb: [
           {

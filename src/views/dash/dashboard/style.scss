@@ -1,0 +1,25 @@
+.dashboard-cards{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 25px;
+
+    .dash-card{
+        width: 49%;
+        background-color: white;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        padding: 15px;
+
+        .title{
+            color: var(--leap-secondary-color);
+            font-weight: 500;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+    }
+}

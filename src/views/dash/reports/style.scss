@@ -1,0 +1,16 @@
+.reports-cards{
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 25px;
+
+    .report-card{
+        width: 49%;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+}

@@ -1,5 +1,6 @@
 import DashboardTemplate from "@/views/templates/DashboardTemplate.vue"
-import HomeView from "@/views/dash/HomeView.vue"
+import HomeView from "@/views/dash/dashboard/HomeView.vue"
+import ReportsView from "@/views/dash/reports/ReportsView.vue"
 import DoctorsListView from "@/views/superadmin/doctors/DoctorsListView.vue"
 
 const superadminRoutes = {
@@ -27,7 +28,7 @@ const superadminRoutes = {
     {
       path: "reports",
       name: "sa-reports",
-      component: HomeView,
+      component: ReportsView,
       meta: {
         breadCrumb: [
           {

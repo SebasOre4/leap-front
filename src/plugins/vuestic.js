@@ -25,11 +25,11 @@ export const vuestic = createVuestic({
         },
         {
           name: "mi-expand_less",
-          to: "fa-solid fa-sort-up",
+          to: "fa-solid fa-chevron-up",
         },
         {
           name: "mi-expand_more",
-          to: "fa-solid fa-sort-down",
+          to: "fa-solid fa-chevron-down",
         },
         {
           name: "mi-check",

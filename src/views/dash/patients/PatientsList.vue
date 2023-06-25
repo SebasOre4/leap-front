@@ -1,7 +1,35 @@
 <template>
+    <va-modal v-model="showModal" hide-default-actions blur size="small">
+        <template #header>
+            <h2 class="form-header">Nuevo Paciente</h2>
+        </template>
+        <va-form class="create-form" ref="patient-form">
+            <div class="form-group">
+                <div class="form-label">Nombre *</div>
+                <va-input v-model="newPatient.name" type="text" class="w-100" :rules="[
+                    (v) => required(v) || 'El campo es requerido',
+                    (v) => stringBetween(v, 4, 25) || 'El campo debe tener entre 4 y 100 letras'
+                ]" />
+            </div>
+            <div class="form-group">
+                <div class="form-label">Apodo *</div>
+                <va-input v-model="newPatient.nickname" type="text" class="w-100" :rules="[
+                    (v) => required(v) || 'El campo es requerido',
+                    (v) => stringBetween(v, 4, 25) || 'El campo debe tener entre 4 y 100 letras'
+                ]" />
+            </div>
+            <div class="form-submit">
+                <va-button :loading="isSaving" :disabled="!isValid || isSaving" @click="validate() && submit()" size="large"
+                    color="secondary" class="submit-btn">
+                    Crear
+                </va-button>
+                <va-button @click="showModal = !showModal" preset="secondary">Cancelar</va-button>
+            </div>
+        </va-form>
+    </va-modal>
     <div class="section-title">
         <div class="label">Pacientes</div>
-        <va-button round siz>Nuevo Paciente</va-button>
+        <va-button round siz @click="showModal = !showModal">Nuevo Paciente</va-button>
     </div>
     <div class="patients-list">
         <div v-for="patient in patients" :class="'patient-card ' + (patient.genre === 'M' ? 'male' : 'female')">
@@ -44,12 +72,22 @@
 import { ref, onBeforeMount, watch } from 'vue';
 import { useRequesterStore } from '@/stores/requester';
 import LeapPagination from '@/components/leap-pagination/LeapPagination.vue';
+import { useValidator } from '@/composables/useValidator.js';
+import { useForm } from 'vuestic-ui';
 
+const { isValid, validate } = useForm('patient-form');
 const requesterX = useRequesterStore();
 const patients = ref([]);
 const pagination = ref([]);
 const currentPage = ref(1);
 const today = new Date();
+const showModal = ref(false);
+const isSaving = ref(false);
+const { stringBetween, required } = useValidator();
+const newPatient = ref({
+    name: null,
+    nickname: null
+})
 
 onBeforeMount(async () => {
     await getPatients()
@@ -90,6 +128,28 @@ function newPage(page) {
         currentPage.value++;
     } else {
         currentPage.value = page * 1;
+    }
+}
+
+async function submit() {
+    const { data } = await requesterX.Post({
+        route: '/patient',
+        withAuth: true,
+        body: newPatient.value
+    });
+
+    if (data.success) {
+        utilsX.setNotif({
+            title: "Creación de Paciente",
+            message: "Paciente creado Exitosamente!",
+            type: "success",
+            timeVisible: 3,
+            position: "top-center",
+        });
+
+        showModal.value = false;
+
+        getPatients();
     }
 }
 </script>
