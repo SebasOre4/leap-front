@@ -1,7 +1,34 @@
 <template>
     <div class="section-title">
         <div class="label">Pacientes</div>
+        
         <va-button round siz :to="{ name: 'new-patient' }">Nuevo Paciente</va-button>
+    </div>
+    <va-button color="blue" class="filter-btn" @click="filter = !filter">
+        <fa-icon class="btn-icon" icon="fa-solid fa-filter"></fa-icon> Buscar Paciente
+    </va-button>
+    <div class="filter-box" v-if="filter">
+        <div class="form-group">
+            <div class="form-label">Nombre</div>
+            <va-input v-model="query.fullname" type="text" class="w-100" />
+        </div>
+        <div class="form-group">
+            <div class="form-label">Apodo</div>
+            <va-input v-model="query.nickname" type="text" class="w-100" />
+        </div>
+        <div class="form-group">
+            <div class="form-label">Estado</div>
+            <va-select v-model="query.state" clearable prevent-overflow :options="states" :value-by="(type) => type.val"
+                :text-by="(type) => type.name" class="w-100" />
+        </div>
+        <div class="form-group">
+            <div class="form-label">Género</div>
+            <va-select v-model="query.genre" clearable prevent-overflow :options="genres" :value-by="(type) => type.val"
+                :text-by="(type) => type.name" class="w-100" />
+        </div>
+        <va-button @click="getPatients(true)" size="large" color="secondary" class="submit-btn">
+            Buscar
+        </va-button>
     </div>
     <div class="patients-list">
         <div v-for="patient in patients" :class="'patient-card ' + (patient.genre === 'M' ? 'male' : 'female')">
@@ -53,6 +80,33 @@ const patients = ref([]);
 const pagination = ref([]);
 const currentPage = ref(1);
 const today = new Date();
+const filter = ref(false);
+const query = ref({
+    fullname: null,
+    nickname: null,
+    state: null,
+    genre: null
+})
+const genres = [
+    {
+        val: "M",
+        name: "Masculino"
+    },
+    {
+        val: "F",
+        name: "Femenino"
+    },
+];
+const states = [
+    {
+        val: "Internado",
+        name: "Internado"
+    },
+    {
+        val: "En tratamiento",
+        name: "En tratamiento"
+    },
+];
 
 onBeforeMount(async () => {
     await getPatients()
@@ -65,10 +119,15 @@ watch(
     }
 );
 
-async function getPatients() {
+async function getPatients(clear) {
+    if (clear) {
+        currentPage.value = 1;
+    }
+
     const { data } = await requesterX.Get({
         route: `/patient?page=${currentPage.value}`,
-        withAuth: true
+        withAuth: true,
+        params: query.value
     });
 
     if (data) {

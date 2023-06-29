@@ -32,9 +32,10 @@ export const useRequesterStore = defineStore("requester", () => {
     withAuth = false,
     extraHeader = {},
     external = false,
+    params = {}
   }) {
     const cli = external ? outClient : client;
-    return cli.get(route, { headers: makeHeader(withAuth, extraHeader) });
+    return cli.get(route, { headers: makeHeader(withAuth, extraHeader), params });
   }
 
   function Put({

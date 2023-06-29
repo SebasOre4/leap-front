@@ -24,6 +24,7 @@ import {
   faEyeSlash,
   faFileCircleCheck,
   faFileWaveform,
+  faFilter,
   faHeartPulse,
   faHome,
   faPen,
@@ -72,7 +73,8 @@ library.add(
   faPen,
   faCommentMedical,
   faCircleCheck,
-  faFileCircleCheck
+  faFileCircleCheck,
+  faFilter
 )
 
 export default FontAwesomeIcon

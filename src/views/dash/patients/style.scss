@@ -1,9 +1,32 @@
+.filter-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  .form-group {
+    width: 24%;
+  }
+}
+
+.filter-btn {
+  margin: 20px 0px;
+
+  .btn-icon {
+    margin: 0px 5px;
+  }
+}
+
 .patients-list {
   display: flex;
   align-items: stretch;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin: 40px 0px;
+  margin-bottom: 20px;
 
   .patient-card {
     position: relative;
@@ -22,13 +45,13 @@
       width: 100%;
       margin-bottom: 15px;
 
-      .main{
+      .main {
         font-size: 20px;
         color: var(--leap-primary-color);
         margin-bottom: 10px;
       }
 
-      .text{
+      .text {
         font-size: 15px;
         color: var(--leap-black-color);
         opacity: 0.9;
@@ -36,16 +59,16 @@
       }
     }
 
-    .actions{
+    .actions {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
 
-      .action-btn{
+      .action-btn {
         margin: 5px;
 
-        .btn-icon{
+        .btn-icon {
           margin: 0px 5px;
         }
       }
@@ -61,14 +84,14 @@
   }
 }
 
-.form-container{
+.form-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   margin: 20px 0px;
 
-  .create-form{
+  .create-form {
     background: white;
     border-radius: 15px;
     overflow: hidden;
@@ -87,9 +110,14 @@
 }
 
 @media screen and (max-width: 800px) {
-  .form-container{
-  
-    .create-form{
+  .filter-box {
+    .form-group {
+      width: 100%;
+    }
+  }
+
+  .form-container {
+    .create-form {
       width: 100%;
     }
   }
@@ -102,4 +130,3 @@
     }
   }
 }
-
