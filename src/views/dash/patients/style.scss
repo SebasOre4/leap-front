@@ -9,7 +9,7 @@
   margin-bottom: 20px;
 
   .form-group {
-    width: 24%;
+    width: 19.6%;
   }
 }
 
@@ -98,6 +98,14 @@
     padding: 15px;
     width: 50%;
     max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .c-1-2{
+      width: 49%;
+    }
   }
 }
 
@@ -127,6 +135,14 @@
   .patients-list {
     .patient-card {
       width: 100%;
+    }
+  }
+
+  .form-container {
+    .create-form {
+      .c-1-2{
+        width: 100%;
+      }
     }
   }
 }

@@ -51,6 +51,13 @@ export function useValidator() {
     return false;
   }
 
+  function onlyNums(v) {
+    if (v) {
+      return /^\d+$/g.test(v);
+    }
+    return false;
+  }
+
   function url(v) {
     if (v) {
       return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g.test(
@@ -70,5 +77,6 @@ export function useValidator() {
     password,
     url,
     optional,
+    onlyNums
   };
 }

@@ -1,20 +1,27 @@
 <template>
     <div class="section-title">
         <div class="label">Pacientes</div>
-        
+
         <va-button round siz :to="{ name: 'new-patient' }">Nuevo Paciente</va-button>
     </div>
     <va-button color="blue" class="filter-btn" @click="filter = !filter">
         <fa-icon class="btn-icon" icon="fa-solid fa-filter"></fa-icon> Buscar Paciente
     </va-button>
-    <div class="filter-box" v-if="filter">
+    <va-form ref="filter-form" class="filter-box" v-if="filter">
         <div class="form-group">
             <div class="form-label">Nombre</div>
-            <va-input v-model="query.fullname" type="text" class="w-100" />
+            <va-input v-model="query.fullname" type="text" class="w-100" 
+            :rules="[(v) => optional(v) || stringBetween(v, 4, 100) || 'El campo debe tener entre 4 y 100 letras']"/>
+        </div>
+        <div class="form-group">
+            <div class="form-label">Historia Clínica</div>
+            <va-input v-model="query.nhc" type="text" class="w-100"
+            :rules="[(v) => optional(v) || onlyNums(v) || 'Ingrese solo números']"></va-input>
         </div>
         <div class="form-group">
             <div class="form-label">Apodo</div>
-            <va-input v-model="query.nickname" type="text" class="w-100" />
+            <va-input v-model="query.nickname" type="text" class="w-100" 
+            :rules="[(v) => optional(v) || stringBetween(v, 2, 25) || 'El campo debe tener entre 2 y 25 letras']"/>
         </div>
         <div class="form-group">
             <div class="form-label">Estado</div>
@@ -26,15 +33,19 @@
             <va-select v-model="query.genre" clearable prevent-overflow :options="genres" :value-by="(type) => type.val"
                 :text-by="(type) => type.name" class="w-100" />
         </div>
-        <va-button @click="getPatients(true)" size="large" color="secondary" class="submit-btn">
+        <va-button :loading="isBusy" :disabled="!isValid || isBusy" @click="validate() && getPatients(true)"
+            size="large" color="secondary" class="submit-btn">
             Buscar
         </va-button>
-    </div>
+    </va-form>
     <div class="patients-list">
         <div v-for="patient in patients" :class="'patient-card ' + (patient.genre === 'M' ? 'male' : 'female')">
             <div class="data">
                 <div class="main">
                     <b>{{ patient.fullname }}</b> ({{ patient.nickname }})
+                </div>
+                <div class="text">
+                    <b>Historia Clínica: </b>{{ `HC-${patient.nhc}` }}
                 </div>
                 <div class="text">
                     <b>Genero: </b>{{ getGenre(patient.genre) }}
@@ -49,6 +60,9 @@
                 </div>
                 <div class="text">
                     <b>Estado: </b>{{ patient.state }}
+                </div>
+                <div class="text">
+                    <b>Prediagnóstico: </b>{{ patient.prediagnosis }}
                 </div>
             </div>
             <div class="actions">
@@ -74,18 +88,24 @@
 import { ref, onBeforeMount, watch } from 'vue';
 import { useRequesterStore } from '@/stores/requester';
 import LeapPagination from '@/components/leap-pagination/LeapPagination.vue';
+import { useForm } from 'vuestic-ui';
+import { useValidator } from '@/composables/useValidator.js';
 
+const { stringBetween, optional, onlyNums } = useValidator();
+const { isValid, validate } = useForm('filter-form');
 const requesterX = useRequesterStore();
 const patients = ref([]);
 const pagination = ref([]);
 const currentPage = ref(1);
+const isBusy = ref(false);
 const today = new Date();
 const filter = ref(false);
 const query = ref({
     fullname: null,
     nickname: null,
     state: null,
-    genre: null
+    genre: null,
+    nhc: null
 })
 const genres = [
     {
@@ -120,6 +140,8 @@ watch(
 );
 
 async function getPatients(clear) {
+    isBusy.value = true;
+
     if (clear) {
         currentPage.value = 1;
     }
@@ -134,6 +156,8 @@ async function getPatients(clear) {
         patients.value = data.data;
         pagination.value = data.meta.links;
     }
+
+    isBusy.value = false;
 }
 
 function getAge(birth) {
