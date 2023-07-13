@@ -1,0 +1,320 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+
+  .create-form {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 15px;
+    width: 50%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .c-1-2 {
+      width: 49%;
+    }
+  }
+}
+
+.age-info {
+  color: var(--leap-primary-color);
+  font-weight: 500;
+  font-size: 30px;
+  text-align: center;
+}
+
+.info {
+  color: var(--leap-black-color);
+}
+
+.ok {
+  color: var(--leap-success-color);
+}
+
+.wrong {
+  color: var(--leap-error-color);
+}
+
+.denver-cards {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 25px;
+
+  .denver-card {
+    width: 49%;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+
+    &.error{
+      border: 1px solid var(--leap-error-color);
+    }
+
+    .title {
+      width: 100%;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      border-bottom: 3px solid rgba(128, 128, 128, 0.099);
+      color: var(--leap-secondary-color);
+      font-weight: 500;
+      font-size: 22px;
+
+      .error{
+        color: var(--leap-error-color);
+        opacity: 0.9;
+        font-weight: 400;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    }
+
+    .test-data {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+
+      .subtitle {
+        color: var(--leap-black-color);
+        opacity: 0.6;
+        font-weight: 500;
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .state {
+        border-right: 3px solid rgba(128, 128, 128, 0.099);
+        width: 125px;
+
+        .instruction {
+          height: calc(100% - 20px);
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          align-content: center;
+          align-items: center;
+          justify-content: center;
+
+          .state-icon {
+            margin-bottom: 10px;
+            font-size: 50px;
+            opacity: 0.8;
+          }
+
+          .instruction-label {
+            opacity: 0.8;
+            font-size: 13px;
+            text-align: center;
+          }
+        }
+      }
+
+      .hitos-slider {
+        width: calc(100% - 125px);
+        padding: 0px 10px;
+
+        .hito-info {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          .hito-card {
+            width: calc(100% - 80px);
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 15px;
+            margin: 15px 0px;
+            border: 1px solid var(--leap-male-color);
+
+            .label {
+              background-color: var(--leap-male-color);
+              color: white;
+              width: 100%;
+              padding: 10px;
+              text-align: center;
+              font-size: 20px;
+              margin-bottom: 10px;
+            }
+
+            .age-rule {
+              width: 60%;
+              text-align: center;
+              position: relative;
+              margin: 35px;
+              padding-bottom: 27px;
+
+              .rule {
+                position: relative;
+                width: 100%;
+                height: 35px;
+                overflow: hidden;
+                border-radius: 5px;
+                border: 1px solid var(--leap-female-color);
+                transition: all 0.3s ease;
+
+                .painted {
+                  background-color: var(--leap-female-color);
+                  transition: all 0.3s ease;
+                  height: 100%;
+                  width: 50%;
+                  position: absolute;
+                  top: 0px;
+                  left: 50%;
+                }
+              }
+
+              .age-label {
+                font-style: italic;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+                color: var(--leap-female-color);
+                opacity: 0.7;
+                font-weight: bold;
+
+                &.child-age {
+                  bottom: -20px;
+                  color: var(--leap-primary-color);
+
+                  &:after {
+                    height: 87px;
+                    width: 4px;
+                    background-color: var(--leap-primary-color);
+                  }
+                }
+
+                &:after {
+                  content: '';
+                  position: absolute;
+                  width: 2px;
+                  height: 57px;
+                  background-color: var(--leap-female-color);
+                  bottom: 100%;
+                  left: 50%;
+                }
+              }
+            }
+          }
+
+          .control-arrow {
+            color: white;
+            opacity: 0.85;
+            color: var(--leap-secondary-color);
+            border-radius: 50%;
+            box-sizing: border-box;
+            padding: 5px;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            &.off {
+              opacity: 0.25;
+              cursor: not-allowed;
+            }
+
+            &:not(.off):hover {
+              color: white;
+              opacity: 0.85;
+              background-color: var(--leap-secondary-color);
+            }
+          }
+        }
+
+        .detected-age{
+          opacity: 0.8;
+          text-align: center;
+        }
+
+        .actions {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          .action {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 15px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+
+            &.active {
+              &.ok {
+                color: white;
+                background-color: var(--leap-success-color);
+              }
+
+              &.wrong {
+                color: white;
+                background-color: var(--leap-error-color);
+              }
+            }
+
+            &:hover {
+              transform: scale(1.1);
+              -webkit-transform: scale(1.1);
+              -moz-transform: scale(1.1);
+              background-color: rgb(239, 239, 239);
+            }
+
+            .action-icon {
+              font-size: 30px;
+              opacity: 0.8;
+            }
+
+            p {
+              font-size: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .form-container {
+    .create-form {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .form-container {
+    .create-form {
+      .c-1-2 {
+        width: 100%;
+      }
+    }
+  }
+}

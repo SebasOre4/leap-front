@@ -18,6 +18,7 @@ import {
   faCircleCheck,
   faCircleInfo,
   faCircleXmark,
+  faClockRotateLeft,
   faCommentMedical,
   faEdit,
   faEye,
@@ -26,13 +27,15 @@ import {
   faFileWaveform,
   faFilter,
   faHeartPulse,
+  faHighlighter,
   faHome,
   faPen,
   faStethoscope,
   faTrash,
   faTriangleExclamation,
   faUser,
-  faUsersLine
+  faUsersLine,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
@@ -74,7 +77,10 @@ library.add(
   faCommentMedical,
   faCircleCheck,
   faFileCircleCheck,
-  faFilter
+  faFilter,
+  faClockRotateLeft,
+  faHighlighter,
+  faXmark
 )
 
 export default FontAwesomeIcon
