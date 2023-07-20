@@ -29,7 +29,9 @@ import {
   faHeartPulse,
   faHighlighter,
   faHome,
+  faMinus,
   faPen,
+  faPlus,
   faStethoscope,
   faTrash,
   faTriangleExclamation,
@@ -80,7 +82,9 @@ library.add(
   faFilter,
   faClockRotateLeft,
   faHighlighter,
-  faXmark
+  faXmark,
+  faPlus,
+  faMinus
 )
 
 export default FontAwesomeIcon

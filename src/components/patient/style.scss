@@ -301,6 +301,26 @@
   }
 }
 
+.history-card{
+  margin-bottom: 15px;
+
+  .card-detail{
+    padding: 25px;
+    
+  }
+}
+
+.treat-inputs{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+
+  .treat-input, .treat-button{
+    margin: 7px;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .form-container {
     .create-form {

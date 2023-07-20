@@ -21,7 +21,7 @@
                         <p v-if="item.state === null" class="instruction-label info">Llena el test en base a los hitos que
                             el infante logra.</p>
                         <p v-else-if="item.state" class="instruction-label ok">
-                            3 hitos alcanzados{{ item.wrongs > 0 && ", resultado dudoso." }}
+                            3 hitos alcanzados{{ item.wrongs > 0 ? ", resultado dudoso." : "" }}
                         </p>
                         <p v-else class="instruction-label wrong">Hitos fallidos para la edad del infante</p>
                     </div>
@@ -79,9 +79,9 @@
                         </div>
                         <div class="form-group">
                             <div class="form-label">Observaciones</div>
-                            <va-input v-model="item.tests[item.currentIndex].observations" autosize type="textarea"
+                            <va-input v-model="item.observations" autosize type="textarea"
                                 placeholder="Escribe tus observaciones" class="w-100" :rules="[
-                                    (v) => required(item.state),
+                                    (v) => !(item.state === null || item.state === undefined),
                                     (v) => optional(v) || stringBetween(v, 0, 500) || 'El campo debe tener entre 0 y 500 letras'
                                 ]" />
                         </div>
@@ -122,6 +122,11 @@ import { ref, onBeforeMount, watch } from "vue";
 import { useRequesterStore } from '@/stores/requester';
 import { useValidator } from '@/composables/useValidator.js';
 import { useForm } from 'vuestic-ui';
+import { useUtilsStore } from '@/stores/utils';
+
+const emit = defineEmits(['diagnosticated'])
+
+const utilsX = useUtilsStore();
 
 const { isValid, validate } = useForm('diagnosis-form');
 
@@ -131,6 +136,15 @@ const props = defineProps({
     patientId: {
         type: String,
         required: true
+    },
+    isFinalDiagnosis: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    treatmentId: {
+        type: String,
+        required: false
     },
     age: {
         type: Number,
@@ -225,9 +239,9 @@ function checkHito(item, value) {
             }
         }
     }
-    if (item.currentIndex > 0 && item.currentIndex < item.tests.length - 1 && item.higherIndex != null && item.tests[item.currentIndex].state != null) {
+    if (item.currentIndex > 0 && item.currentIndex <= item.tests.length - 1 && item.higherIndex != null && item.tests[item.currentIndex].state != null) {
         do {
-            !value || item.tests[item.higherIndex].state === false ? item.currentIndex-- : item.currentIndex++;
+            !value || item.tests[item.higherIndex].state === false || item.higherIndex == item.tests.length - 1 ? item.currentIndex-- : item.currentIndex++;
         } while (item.tests[item.currentIndex].state != undefined && item.tests[item.currentIndex].state != null);
     }
 
@@ -237,7 +251,17 @@ function checkHito(item, value) {
             if (item.oks >= 3) {
                 item.state = true;
                 successTests.value++;
-                item.detectedAge = props.age;
+                if (item.higherIndex > item.ageIndex) {
+                    for (let index = item.higherIndex; index >= 0; index--) {
+                        const element = item.tests[index];
+                        if (element.state) {
+                            item.detectedAge = element.expectedAge;
+                            break;
+                        }
+                    }
+                } else {
+                    item.detectedAge = props.age;
+                }
             }
         } else {
             item.state = false;
@@ -325,6 +349,57 @@ function prepareTest() {
             element.currentIndex = element.ageIndex = index < 0 ? 0 : index;
         }
     }
+}
+
+async function submit() {
+    try {
+        const body = {
+            denver_test: JSON.stringify(newDiagnosis.value.denverTest),
+            recomendations: newDiagnosis.value.recomendations,
+            result: newDiagnosis.value.result,
+            evaluated_age: props.age
+        }
+
+        const res = await requesterX.Post({
+            route: props.isFinalDiagnosis ? `/discharge-patient/${props.patientId}/${props.treatmentId}` : `/diagnose-patient/${props.patientId}`,
+            body,
+            withAuth: true,
+        });
+
+        console.log(res);
+
+        if (res.data.success) {
+            if (props.isFinalDiagnosis) {
+                utilsX.setNotif({
+                    title: "Dando de alta a paciente",
+                    message: "Paciente dado de alta Exitosamente!",
+                    type: "success",
+                    timeVisible: 3,
+                    position: "top-center",
+                });
+            } else {
+                utilsX.setNotif({
+                    title: "Diagnosticando paciente",
+                    message: "Paciente diagnosticado Exitosamente!",
+                    type: "success",
+                    timeVisible: 3,
+                    position: "top-center",
+                });
+            }
+
+            emit('diagnosticated');
+        }
+    } catch (error) {
+        console.log(error);
+        utilsX.setNotif({
+            title: "Guardando datos",
+            message: "Algo salio mal :/... ",
+            type: "error",
+            timeVisible: 3,
+            position: "top-center",
+        });
+    }
+
 }
 
 onBeforeMount(async () => {

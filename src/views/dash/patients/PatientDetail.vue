@@ -4,7 +4,7 @@
     </div>
     <va-tabs v-model="currentTab" class="leap-tabs">
         <template #tabs>
-            <va-tab v-for="(tab, index) in availableTabs" :v-if="tab.isVisible" :key="tab.label" :name="index">
+            <va-tab v-for="(tab, index) in availableTabs" :key="tab.label" :name="index">
                 <fa-icon :icon="tab.icon" class="tab-icon"></fa-icon>
                 {{ tab.label }}
             </va-tab>
@@ -15,11 +15,19 @@
             <PatientEditForm v-if="patientData" :patient="patientData" :patient-id="patientId"></PatientEditForm>
         </div>
         <div v-if="currentTab === getIndex('diagnosticar')">
-            <DiagnosisForm v-if="patientData" :patient-id="patientId" :age="calcAge()*1"></DiagnosisForm>
+            <DiagnosisForm v-if="patientData" :patient-id="patientId" @diagnosticated="updateView" :age="calcAge()*1"></DiagnosisForm>
         </div>
-        <div v-if="currentTab === getIndex('tratamiento')">Tab 3</div>
-        <div v-if="currentTab === getIndex('dar-de-alta')">Tab 4</div>
-        <div v-if="currentTab === getIndex('reportes')">Tab 5</div>
+        <div v-if="currentTab === getIndex('tratamiento')">
+            <TreatmentForm v-if="patientData" :age="calcAge(patientData.birthday)*1" :patient-id="patientId"></TreatmentForm>
+        </div>
+        <div v-if="currentTab === getIndex('dar-de-alta')">
+            <DiagnosisForm v-if="patientData && patientData.current_treatment_id" :treatment-id="patientData.current_treatment_id"  :patient-id="patientId" :is-final-diagnosis="true" @diagnosticated="updateView" :age="calcAge()*1"></DiagnosisForm>
+        </div>
+        <div v-if="currentTab === getIndex('reportes')">
+        </div>
+        <div v-if="currentTab === getIndex('historial')">
+            <TreatmentHistory v-if="patientData" :age="calcAge(patientData.birthday)*1" :patient-id="patientId"></TreatmentHistory>
+        </div>
     </div>
 </template>
   
@@ -29,6 +37,8 @@ import { useRoute, useRouter } from "vue-router";
 import { useRequesterStore } from '@/stores/requester';
 import DiagnosisForm from '@/components/patient/DiagnosisForm.vue';
 import PatientEditForm from '@/components/patient/PatientEditForm.vue';
+import TreatmentForm from '@/components/patient/TreatmentForm.vue';
+import TreatmentHistory from '@/components/patient/TreatmentHistory.vue';
 
 const requesterX = useRequesterStore();
 
@@ -82,7 +92,8 @@ const availableTabs = computed(() => {
         return [
             tabs[0],
             tabs[1],
-            tabs[4]
+            tabs[4],
+            tabs[5]
         ];
     }
     if(['Dado de alta'].includes(patientData.value?.state)){
@@ -98,7 +109,8 @@ const availableTabs = computed(() => {
             tabs[0],
             tabs[2],
             tabs[3],
-            tabs[4]
+            tabs[4],
+            tabs[5]
         ];
     }
 })
@@ -129,6 +141,11 @@ watch(
     }
 );
 
+async function updateView() {
+    await getPatient();
+    currentTab.value = 0;
+}
+
 function tabIndex(tabLabel) {
     const index = availableTabs.value?.findIndex((el) => el.id === tabLabel);
     return index >= 0 ? index : 0;
@@ -151,8 +168,8 @@ async function getPatient() {
     isBusy.value = false;
 }
 
-function calcAge(){
-    const age = today - (patientData.value.crono_birthday || patientData.value.birthday);
+function calcAge(customAge = null){
+    const age = today - (customAge || patientData.value.crono_birthday || patientData.value.birthday);
     return ((age / (365.25 * 24 * 60 * 60 * 1000))*12).toFixed(2);
 }
 
