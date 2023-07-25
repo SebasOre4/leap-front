@@ -1,0 +1,149 @@
+.filter-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  
+    .form-group {
+      width: 19.6%;
+    }
+  }
+  
+  .filter-btn {
+    margin: 20px 0px;
+  
+    .btn-icon {
+      margin: 0px 5px;
+    }
+  }
+  
+  .patients-list {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  
+    .patient-card {
+      position: relative;
+      box-sizing: border-box;
+      background: white;
+      overflow: hidden;
+      width: 24%;
+      margin: 10px 0px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+  
+      .data {
+        width: 100%;
+        margin-bottom: 15px;
+  
+        .main {
+          font-size: 20px;
+          color: var(--leap-primary-color);
+          margin-bottom: 10px;
+        }
+  
+        .text {
+          font-size: 15px;
+          color: var(--leap-black-color);
+          opacity: 0.9;
+          margin-bottom: 2px;
+        }
+      }
+  
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+  
+        .action-btn {
+          margin: 5px;
+  
+          .btn-icon {
+            margin: 0px 5px;
+          }
+        }
+      }
+  
+      &.male {
+        border-top: 3px solid var(--leap-male-color);
+      }
+  
+      &.female {
+        border-top: 3px solid var(--leap-female-color);
+      }
+    }
+  }
+  
+  .form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0px;
+  
+    .create-form {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      padding: 15px;
+      width: 50%;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+  
+      .c-1-2{
+        width: 49%;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .patients-list {
+      .patient-card {
+        width: 49%;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 800px) {
+    .filter-box {
+      .form-group {
+        width: 100%;
+      }
+    }
+  
+    .form-container {
+      .create-form {
+        width: 100%;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 550px) {
+    .patients-list {
+      .patient-card {
+        width: 100%;
+      }
+    }
+  
+    .form-container {
+      .create-form {
+        .c-1-2{
+          width: 100%;
+        }
+      }
+    }
+  }
+  

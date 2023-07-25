@@ -3,36 +3,37 @@
         <div class="label">Mi dashboard</div>
     </div>
     <div class="dashboard-cards">
-        <div class="dash-card">
-            <div class="title">Pacientes en Tratamiento</div>
-            <div class="w-100">
-                <Bar :data="barChartData" :options="options" />
+        <div class="dash-card w-100">
+            <div class="title">Tratamientos Finalizados</div>
+            <div class="w-100" style="height: 40vh;">
+                <Bar v-if="diagnosesInYear" :data="diagnosesInYear" :options="options" />
             </div>
         </div>
         <div class="dash-card">
-            <div class="title">Reportes</div>
+            <div class="title">Estado de pacientes</div>
             <div class="w-100">
-                <Pie :data="pieChartData" :options="options" />
+                <Pie v-if="patientsInTreatmentData" :data="patientsInTreatmentData" :options="options" />
             </div>
         </div>
         <div class="dash-card">
             <div class="title">Tratamientos Activos</div>
             <div class="w-100">
-                <Pie :data="pieChartData" :options="options" />
+                <Pie v-if="activeTreatmentsData" :data="activeTreatmentsData" :options="options" />
             </div>
         </div>
         <div class="dash-card">
-            <div class="title">Pacientes tratados por semana</div>
+            <div class="title">Tratamientos finalizados en el año</div>
             <div class="w-100">
-                <Bar :data="barChartData" :options="options" />
+                <Bar v-if="treatmentsInYear" :data="treatmentsInYear" :options="options" />
             </div>
         </div>
         <div class="dash-card">
-            <div class="title">Tratamientos Finalizados</div>
+            <div class="title">Pacientes ingresados en el año</div>
             <div class="w-100">
-                <Pie :data="pieChartData" :options="options" />
+                <Bar v-if="patientsInYear" :data="patientsInYear" :options="options" />
             </div>
         </div>
+        
     </div>
 </template>
   
@@ -41,51 +42,136 @@ import {
     Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement,
     CategoryScale,
     LinearScale, Title
-} from 'chart.js'
-import { Pie, Bar } from 'vue-chartjs'
-
+} from 'chart.js';
 ChartJS.register(ArcElement, Title, Tooltip, Legend, BarElement,
     CategoryScale,
-    LinearScale)
+    LinearScale);
 
-const pieChartData = {
-    labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-    datasets: [
-        {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-            data: [40, 20, 80, 10]
-        }
-    ]
-}
+import { ref, onBeforeMount } from 'vue';
+import { Pie, Bar } from 'vue-chartjs';
+import { useRequesterStore } from '@/stores/requester';
 
-const barChartData = {
-    labels: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ],
-    datasets: [
-        {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-        }
-    ]
-}
+const requesterX = useRequesterStore();
+
+const patientsInTreatmentData = ref(null);
+const activeTreatmentsData = ref(null);
+const treatmentsInYear = ref(null);
+const patientsInYear = ref(null);
+const dashData = ref(null);
+const diagnosesInYear = ref(null);
 
 const options = {
     responsive: true,
     maintainAspectRatio: false
 }
+
+async function getDashData() {
+    const { data } = await requesterX.Get({
+        route: `/dash-graphs`,
+        withAuth: true
+    });
+
+    if (data) {
+        dashData.value = data.data;
+        console.log(data.data);
+        prepareGraphs();
+    }
+}
+
+function prepareGraphs() {
+    patientsInTreatmentData.value = {
+        labels: ['Dados de alta', 'En Tratamiento', 'Internados'],
+        datasets: [
+            {
+                backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
+                data: [dashData.value.patients.discharged, dashData.value.patients.inTreatCJ + dashData.value.patients.inTreatSJ, dashData.value.patients.interned]
+            }
+        ]
+    }
+
+    activeTreatmentsData.value = {
+        labels: ['Tratamientos externos', 'Con juegos'],
+        datasets: [
+            {
+                backgroundColor: ['#41B883', '#E46651'],
+                data: [dashData.value.patients.inTreatSJ, dashData.value.patients.inTreatCJ]
+            }
+        ]
+    }
+
+    treatmentsInYear.value = {
+        labels: dashData.value.treatmentsInYear.map(data => data.month_year),
+        datasets: [
+            {
+                label: 'Tratamientos en el año',
+                backgroundColor: '#f87979',
+                data: dashData.value.treatmentsInYear.map(data => data.count)
+            }
+        ]
+    }
+
+    patientsInYear.value = {
+        labels: dashData.value.patientsInYear.females.map(data => data.month_year),
+        datasets: [
+            {
+                label: 'Niñas tratadas en el año',
+                backgroundColor: '#f87979',
+                data: dashData.value.patientsInYear.females.map(data => data.count)
+            },
+            {
+                label: 'Niños tratados en el año',
+                backgroundColor: '#00D8FF',
+                data: dashData.value.patientsInYear.males.map(data => data.count)
+            }
+        ]
+    }
+
+    diagnosesInYear.value = {
+        labels: dashData.value.diagnosesInYear.initial.length > dashData.value.diagnosesInYear.final.length ? dashData.value.diagnosesInYear.initial.map(data => data.month_year) : dashData.value.diagnosesInYear.final.map(data => data.month_year),
+        datasets: [
+            {
+                label: 'Inicial Normal',
+                backgroundColor: '#4c0082',
+                data: dashData.value.diagnosesInYear.initial.filter(data => data.result === "Normal").map(data => data.count),
+                stack: 'Stack 0'
+            },
+            {
+                label: 'Inicial Dudoso',
+                backgroundColor: '#8e21db',
+                data: dashData.value.diagnosesInYear.initial.filter(data => data.result === "Dudoso").map(data => data.count),
+                stack: 'Stack 0'
+            },
+            {
+                label: 'Inicial Anormal',
+                backgroundColor: '#b854ff',
+                data: dashData.value.diagnosesInYear.initial.filter(data => data.result === "Anormal").map(data => data.count),
+                stack: 'Stack 0'
+            },
+            {
+                label: 'Final Normal',
+                backgroundColor: '#8c004b',
+                data: dashData.value.diagnosesInYear.final.filter(data => data.result === "Normal").map(data => data.count),
+                stack: 'Stack 1'
+            },
+            {
+                label: 'Final Dudoso',
+                backgroundColor: '#c9207a',
+                data: dashData.value.diagnosesInYear.final.filter(data => data.result === "Dudoso").map(data => data.count),
+                stack: 'Stack 1'
+            },
+            {
+                label: 'Final Anormal',
+                backgroundColor: '#f23f9f',
+                data: dashData.value.diagnosesInYear.final.filter(data => data.result === "Anormal").map(data => data.count),
+                stack: 'Stack 1'
+            },
+        ]
+    }
+}
+
+onBeforeMount(async () => {
+    await getDashData()
+});
 </script>
 
 <style lang="scss" src="./style.scss"></style>
