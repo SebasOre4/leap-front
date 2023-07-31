@@ -11,7 +11,7 @@ router.beforeEach(async (to, from, next) => {
   const userX = useUserStore()
   const currentUser = userX.apiUser
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const hasPermission = currentUser ? to.matched.some((record) => record.meta.userType?.includes(currentUser.superadmin)) : true;
+  const hasPermission = currentUser ? to.matched.some((record) => record.meta.userType?.includes(currentUser.superadmin*1)) : true;
 
   if (requiresAuth && !currentUser) {
     next({ name: 'login' })
