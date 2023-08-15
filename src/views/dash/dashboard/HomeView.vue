@@ -21,6 +21,33 @@
                 <va-button :to="{ name: 'reports' }">Ver más gráficas</va-button>
             </div>
         </div>
+        <div class="dash-card">
+            <div class="title">Mis pacientes</div>
+            <div class="img-prev-container">
+                <va-image fit="contain" class="img-prev" src="/imgs/patients.png" lazy />
+            </div>
+            <div class="w-100 center">
+                <va-button :to="{ name: 'patients' }">Ver Pacientes</va-button>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="title">Tratamientos Activos</div>
+            <div class="img-prev-container">
+                <va-image fit="contain" class="img-prev" src="/imgs/treatments.png" lazy />
+            </div>
+            <div class="w-100 center">
+                <va-button :to="{ name: 'treatments' }">Ver tratamientos</va-button>
+            </div>
+        </div>
+        <div class="dash-card">
+            <div class="title">Mis datos</div>
+            <div class="img-prev-container">
+                <va-image fit="contain" class="img-prev" src="/imgs/profile.png" lazy />
+            </div>
+            <div class="w-100 center">
+                <va-button :to="{ name: 'profile' }">Editar perfil</va-button>
+            </div>
+        </div>
     </div>
 </template>
   

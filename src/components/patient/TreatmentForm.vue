@@ -54,7 +54,75 @@
             </va-form>
         </div>
         <div class="denver-card">
-            <div class="title">Motor Fino - Juegos</div>
+            <div class="title">Tratamiento Motor Fino - Juegos</div>
+            <va-form class="form-group" ref="games-treatment-form">
+                <div class="game-config" v-for="(treatment, index) in gameTreatments">
+                    <div class="info">
+                        <div class="name">
+                            {{ gamesOpts[treatment.game_id - 1].name }}
+                        </div>
+                        <va-image fit="contain" class="img-map"
+                            :src="`/imgs/${gamesOpts[treatment.game_id - 1].default_config.map}.jpeg`" lazy />
+                    </div>
+                    <div class="config">
+                        <div class="form-group">
+                            <div class="form-label">Tiempo:</div>
+                            <va-select v-model="treatment.config.time" clearable prevent-overflow
+                                :options="gamesOpts[treatment.game_id - 1].default_config.config.time"
+                                :value-by="(type) => type.val" :text-by="(type) => type.label" class="w-100"
+                                :rules="[(v) => v != null || 'Este es un campo requerido.']" />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Música:</div>
+                            <va-select v-model="treatment.config.music" clearable prevent-overflow
+                                :options="gamesOpts[treatment.game_id - 1].default_config.config.music"
+                                :value-by="(type) => type.val" :text-by="(type) => type.label" class="w-100"
+                                :rules="[(v) => v != null || 'Este es un campo requerido.']" />
+
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Dificultad:</div>
+                            <va-select v-model="treatment.config.dificulty" clearable prevent-overflow
+                                :options="gamesOpts[treatment.game_id - 1].default_config.config.dificulty" class="w-100"
+                                :value-by="(type) => type.val" :text-by="(type) => type.label"
+                                :rules="[(v) => v != null || 'Este es un campo requerido.']" />
+
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Nro Distractores:</div>
+                            <va-select v-model="treatment.config.distractors" clearable prevent-overflow
+                                :options="gamesOpts[treatment.game_id - 1].default_config.config.distractors" class="w-100"
+                                :value-by="(type) => type.val" :text-by="(type) => type.label"
+                                :rules="[(v) => v != null || 'Este es un campo requerido.']" />
+                        </div>
+                        <div class="form-submit">
+                            <va-button :loading="isSaving" :disabled="!isValid" @click="removeGame(index)" size="large"
+                                color="error" class="submit-btn">
+                                Borrar
+                            </va-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-label">Añadir juegos</div>
+
+                <va-form class="treat-inputs">
+                    <div class="form-group treat-input">
+                        <div class="form-label">Categoría</div>
+                        <va-select v-model="newGameTreatment.game_id" clearable prevent-overflow :options="gamesOpts"
+                            :value-by="(type) => type.id" :text-by="(type) => type.name" class="w-100"
+                            :rules="[(v) => optional(v) || true]" />
+                    </div>
+                    <va-button class="treat-btn add" icon="fa-solid fa-plus" @click="addGame()"></va-button>
+                </va-form>
+
+                <div class="form-submit">
+                    <va-button :loading="isSaving" :disabled="!isValidGame" @click="validateGame() && submitGames()"
+                        size="large" color="secondary" class="submit-btn">
+                        Guardar
+                    </va-button>
+                </div>
+            </va-form>
         </div>
     </div>
 </template>
@@ -99,14 +167,20 @@ const props = defineProps({
 
 const utilsX = useUtilsStore();
 const { isValid, validate } = useForm('ext-treatment-form');
+const { isValid: isValidGame, validate: validateGame } = useForm('games-treatment-form');
 const { stringBetween, optional, required } = useValidator();
 const requesterX = useRequesterStore();
 
 const isSaving = ref(false);
 const loading = ref(true);
+const gamesOpts = ref([]);
+const gameTreatments = ref([]);
 const newExternalTreatment = ref({
     topic: null,
     description: "",
+});
+const newGameTreatment = ref({
+    game_id: null
 });
 const currentTreatment = ref(null);
 const radarData = ref({
@@ -165,6 +239,8 @@ async function submit() {
             external_treatment: JSON.stringify(currentTreatment.value?.external_treatment)
         }
 
+        console.log(toSend);
+
         const { data } = await requesterX.Put({
             route: `/treatment/${currentTreatment.value.id}`,
             withAuth: true,
@@ -210,7 +286,52 @@ async function submit() {
         isSaving.value = false;
         loading.value = false;
     }
+}
 
+async function submitGames() {
+    try {
+        isSaving.value = true;
+
+        const toSend = {
+            game_treatments: gameTreatments.value.map((game) => {
+                return {
+                    ...game,
+                    config: JSON.stringify(game.config)
+                }
+            })
+        }
+
+        const { data } = await requesterX.Post({
+            route: `/exercises/${currentTreatment.value.id}`,
+            withAuth: true,
+            body: toSend
+        });
+
+        if (data) {
+            loading.value = true;
+
+            gameTreatments.value = data.data;
+
+            utilsX.setNotif({
+                title: "Actualizando tratamientos",
+                message: "Tratamiento actualizado Exitosamente!",
+                type: "success",
+                timeVisible: 3,
+                position: "top-center",
+            });
+        }
+    } catch (error) {
+        utilsX.setNotif({
+            title: "Guardando datos",
+            message: "Algo salio mal :/... ",
+            type: "error",
+            timeVisible: 3,
+            position: "top-center",
+        });
+    } finally {
+        isSaving.value = false;
+        loading.value = false;
+    }
 }
 
 function removeTreatment(index) {
@@ -225,15 +346,48 @@ function addTreatment() {
     };
 }
 
+function addGame() {
+    gameTreatments.value?.push({
+        ...newGameTreatment.value,
+        config: {
+            time: null,
+            music: null,
+            dificulty: null,
+            distractors: null
+        }
+    });
+
+    newGameTreatment.value = {
+        game_id: null
+    };
+}
+
+function removeGame(index) {
+    gameTreatments.value?.splice(index, 1);
+}
+
 onBeforeMount(async () => {
     const { data } = await requesterX.Get({
         route: `/current-treatment/${props.patientId}`,
         withAuth: true,
     });
 
-    if (data.success) {
+    const { data: gamesData } = await requesterX.Get({
+        route: `/games`,
+        withAuth: true,
+    });
+
+    if (data.success && gamesData) {
         currentTreatment.value = data.data;
-        console.log(currentTreatment.value)
+        gamesOpts.value = gamesData.data;
+
+        const { data: gameTreatmentsData } = await requesterX.Get({
+            route: `/exercises/${currentTreatment.value.id}`,
+            withAuth: true,
+        });
+
+        gameTreatments.value = gameTreatmentsData.data;
+
         const testData = currentTreatment.value.initial_diagnosis.denver_test;
 
         if (currentTreatment.value.external_treatment === null) {

@@ -15,6 +15,19 @@
         margin-bottom: 15px;
         padding: 15px;
 
+        .img-prev-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: auto;
+
+            .img-prev{
+                width: 80%;
+                height: 350px;
+            }
+        }
+
         .title{
             color: var(--leap-secondary-color);
             font-weight: 500;
